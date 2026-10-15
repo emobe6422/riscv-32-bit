@@ -12,7 +12,9 @@
         output reg [3:0] ALU_control,
         output reg jump,    //unconditional jump enable
         output reg jalr_sel,
-        output reg jal_sel //selects PC+4 for writeback
+        output reg jal_sel, //selects PC+4 for writeback
+        //auipc
+        output reg pc_sel
     );
     
     localparam lui_opcode = 7'b0110111;
@@ -41,6 +43,7 @@
         jump = 1'b0;
         jal_sel = 1'b0;
         jalr_sel = 1'b0;
+        pc_sel = 1'b0;
         ALU_control = 4'b0000;
         write_mask = 4'b0000;        
             
@@ -52,7 +55,10 @@
             end
             
             auipc_opcode : begin
-            
+                pc_sel = 1'b1;
+                ALU_src = 1'b1;
+                reg_write = 1'b1;
+                ALU_control = 4'b0000;
             end
           
             jal_opcode : begin
@@ -75,7 +81,6 @@
                 ALU_control = 4'b1000;     
             end
             
-            /*         first implement lw       */
             load_opcode : begin
                 mem_read = 1'b1;
                 mem_to_reg = 1'b1;  
@@ -84,7 +89,6 @@
                 ALU_control = 4'b1010;     
             end
             
-            /*         first implement sw       */
             store_opcode : begin
                 mem_write = 1'b1;
                 ALU_src = 1'b1;
@@ -151,6 +155,7 @@
                 jump = 1'b0;
                 jal_sel = 1'b0; 
                 jalr_sel = 1'b0;
+                pc_sel = 1'b0;
                 ALU_control = 4'b0000;
                 write_mask = 4'b0000;
             end      
