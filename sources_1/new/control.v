@@ -25,14 +25,8 @@
     localparam load_opcode = 7'b0000011;
     localparam store_opcode = 7'b0100011;
     localparam immediate_opcode = 7'b0010011;
-    localparam arithmetic_opcode = 7'b0110011; 
-    
-    
-    //auipc, jal, jalr, not implemented yet
-    
-    
-    //maybe chnage the default ALU_control later to one not actually used
-    
+    localparam arithmetic_opcode = 7'b0110011;
+        
     always @(*) begin
         branch = 1'b0;
         mem_read = 1'b0;
